@@ -92,5 +92,42 @@ int main(){
 21
 ~~~
 
-
+#### 3. 差分
+要求：一次操作为对一个整数序列a[]的某一区间的整数均加某一个数
+思想：若使用for循环，一次操作的时间复杂度为O（n）,我们可以构建一个差分数组b[]，令b[i]=a[i]-a[i-1]，则a[i]=a[i-1]+b[i],即差分数组b[]为原数组，a[]为原数组的前缀和，此时我们想要对a[l]-a[r]之间的数加c,仅需要b[l]+c,同时b[r+1]-c即可。    
+例题：输入一个长度为 n的整数序列。接下来输入 m个操作，每个操作包含三个整数 l,r,c,表示将序列中 [l,r]之间的每个数加上 c请你输出进行完所有操作后的序列。
+~~~c
+#include<iostream>
+using namespace std;
+const int N=100000;
+int main(){
+    int n,m;
+    int a[N];
+    int b[N];
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)cin>>a[i];//前缀和数组
+     for(int i=1;i<=n;i++)b[i]=a[i]-a[i-1];//原数组，差分数组
+    while(m--){
+        int l,r,c;
+        cin>>l>>r>>c;
+        b[l]+=c;
+        b[r+1]-=c;
+    }
+    for(int i=1;i<=n;i++)a[i]=a[i-1]+b[i];
+    for(int i=1;i<=n;i++)cout<<a[i]<<" ";
+    return 0;
+}
+~~~
+输入：
+~~~c
+6 3
+1 2 2 1 2 1
+1 3 1
+3 5 1
+1 6 1
+~~~
+输出：
+~~~c
+3 4 5 3 4 2
+~~~
 
